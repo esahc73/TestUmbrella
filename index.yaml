@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  edge-platform:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2020-10-07T13:50:56.579721-06:00"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.7.11
+    - condition: vault.enabled
+      name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.6.0
+    description: Umbrella Helm chart for Venafi Edge Platform services
+    digest: 7f52daf726f4b19a741cc4a9e299a558bc1695ef40d463d763d1a3d78a02e440
+    name: edge-platform
+    type: application
+    urls:
+    - https://github.com/esahc73/TestUmbrella/edge-platform-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-10-07T13:50:56.574103-06:00"

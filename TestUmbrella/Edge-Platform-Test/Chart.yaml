@@ -1,0 +1,25 @@
+apiVersion: v2
+name: edge-platform
+description: Umbrella Helm chart for Venafi Edge Platform services
+
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+appVersion: 1.0.0
+
+# Dependencies of umbrella chart
+# See values.yaml for customizations of
+dependencies:
+  - name: redis
+    version: 10.7.11
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: vault
+    version: 0.6.0
+    repository: https://helm.releases.hashicorp.com
+    condition: vault.enabled

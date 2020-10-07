@@ -1,0 +1,121 @@
+# Default values for edge-platform.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+#image:
+#  repository: nginx
+#  pullPolicy: IfNotPresent
+
+imagePullSecrets: regcred
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
+
+#service:
+#  type: ClusterIP
+#  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  #  hosts:
+  #    - host: chart-example.local
+  #      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+#   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Custom Values for dependent charts
+
+# Shared values with anchors.  Be aware, if the chart is re-encoded, the anchors are lost.
+vaultServiceName: &vaultServiceName edge-vault
+redisName: &redisName edge-redis
+redisServiceName: &redisServiceName edge-redis-master
+
+# Custom values for redis
+redis:
+  enabled: true
+  fullnameOverride: *redisName
+  usePassword: false
+  cluster:
+    enabled: false
+  sentinel:
+    enabled: false
+
+# Custom values for Hashicorp Vault
+vault:
+  enabled: true
+  fullnameOverride: *vaultServiceName
+  injector:
+    # True if you want to enable vault agent injection.
+    enabled: false
+
+# Custom values for helm-operator
+helm-operator:
+  enabled: true
+  fullnameOverride: edge-helm-operator
+
+bootstrap-svc:
+  enabled: true
+  vaultServiceName: *vaultServiceName
+  redisServiceName: *redisServiceName
+
+encryption-svc:
+  enabled: true
+  fullnameOverride: edge-encryption-svc
+  vault:
+#    useTLS: false
+    serviceName: *vaultServiceName
+
+authentication-svc:
+  enabled: true
+
+controller-svc:
+  enabled: true
+  edge:
+    pairing_code: "63bf03c2-4cc5-4d47-ba7f-72a7dd59f644"
+
+messaging-svc:
+  enabled: true

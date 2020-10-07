@@ -1,0 +1,9 @@
+dependencies:
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.7.11
+- name: vault
+  repository: https://helm.releases.hashicorp.com
+  version: 0.6.0
+digest: sha256:8fd2cdcc25791e632f98e865103f8c2acac67f493fed99e4c11a04da2a4e4f7c
+generated: "2020-10-07T13:48:12.438562-06:00"
